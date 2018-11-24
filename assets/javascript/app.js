@@ -35,6 +35,7 @@ provider.addScope('email');
 //Sign in using a pop-up
 $(document).on('click', '.signIn', function () {
     firebase.auth().signInWithPopup(provider).then(function (result) {
+        console.log("result:", result);
         // For Google Access Token. 
         var token = result.credential.accessToken;
         // The signed-in user info.
@@ -55,6 +56,7 @@ $(document).on('click', '.signIn', function () {
 
     $(this).removeClass('signIn')
         .addClass('signOut')
+        .css({'position': 'absolute','left':'350px', 'text-align':'center', 'color':'black', 'background-color':'orangered', 'border': 'orangered'})
         .html('Sign Out');
 });
 
@@ -66,7 +68,8 @@ $(document).on('click', '.signOut', function () {
 
     $(this).removeClass('signOut')
         .addClass('signIn')
-        .html('Sign in with your Google account to begin');
+        .css({'position':'absolute', 'left': '280px'})
+        .html('Sign In With Google To Begin');
 });
 
 //DISPLAY CURRENT TIME
@@ -152,7 +155,7 @@ function loggedIn() {
 
 //------------------------------------------------------------------------------------------------------------------
 
-//3. Create Firebase event for adding train information to the database and a row in the html when a user adds an entry
+//3. Create Firebase event for adding train information    to the database and a row in the html when a user adds an entry
 database.ref().on("child_added", function (childSnapshot) {
     console.log(childSnapshot.val());
     console.log("ID is " + childSnapshot.key);
@@ -160,64 +163,66 @@ database.ref().on("child_added", function (childSnapshot) {
     //store data from firebase to a variable
     var trainname = childSnapshot.val().tName;
     var destination = childSnapshot.val().tDest;
-    var firstT = childSnapshot.val().firstTrain;
+    var firstTraw = childSnapshot.val().firstTrain;
     var frequency = childSnapshot.val().freq;
     var trainKey = childSnapshot.key;
 
 
 
     //Calculations for next train arrival and minutes away
-
-    //First train time
-    var firsttrainMoment = moment(firstT, "hh:mm a").subtract(1, "years");
-    console.log("First train: " + moment(firsttrainMoment).format("HH:mm"));
-
-    // var traintime = moment(firsttrainMoment).format("HH:mm");
-
+    firstT = parseInt(moment(firstTraw, 'HH:mm A').format("x"));
+ 
+    
     //Current time
-    var currentTime = moment();
-    console.log("current time is: " + moment(currentTime).format("HH:mm"));
-
+    var currentTime = parseInt(moment().format("x"))
+    console.log("CT:", currentTime)
+    
     //Difference between times
-    var difftime = moment().diff(moment(firsttrainMoment), "minutes");
-    console.log("difference in time: " + difftime);
-
+    var timediff = currentTime - firstT;
+    console.log("difference in time: " + timediff);
+    
     //Time apart
-    var tRemainder = difftime % frequency;
+    var tRemainder = Math.floor(timediff % frequency);
     console.log("minutes difference: " + tRemainder);
-
-
-    //Minutes until next train
-    var minutesAway = frequency - tRemainder;
-    console.log("Minutes away: " + minutesAway);
-
+    
+    var remainingSeconds = timediff % frequency;
+    console.log("f:", remainingSeconds);
+    
+    var nextArrival = ((tRemainder + 1) * frequency) + firstT;
+    console.log("Next arrival:", nextArrival);
+    
+    
+    var timeAway= nextArrival - currentTime;
+    console.log("Time away:", timeAway);
+    
+    //parse data and time
+    var firsttrainMoment =  moment(firstT).format("hh:mm a");
+    console.log("First train: ", firsttrainMoment);
+    frequency = (frequency/60000) * 60000;
+    newTime = moment(nextArrival).format("hh:mm a");
+    minutesAway = Math.floor(timeAway/60000);
     
 
-    //Next Train
-    var addToArrival = currentTime.add(minutesAway, "minutes");
-    var newTime = addToArrival.format("hh:mm a");
-
-
-
-
-
-    //Making changes to HTML
-
+    
+    if (minutesAway < 1){
+           minutesAway: "Departed on time."
+       }
     // Create the new row
-
     var newRow = $("<tr>").append(
         $("<td>").text(trainname),
         $("<td>").text(destination),
         $("<td>").text(frequency),
-        $("<td>").text(newTime),
-        $("<td>").text(minutesAway),
-        $("<td>").html("<i class='fas fa-backspace delete' data-ID = " + trainKey  +  " id = " + trainKey+  "></i>"),
-
-    );
+        $("<td>").text(firsttrainMoment),
+        $("<td>").text(minutesAway + 1),
+            $("<td>").html("<i class='fas fa-backspace delete' data-ID = " + trainKey  +  " id = " + trainKey+  "></i>"),
+    
+        );
+    
 
 
     // Append the new row to the table
     $("#trainSchedule > tbody").append(newRow);
+    
 
     //Delete Row
     $("#" + trainKey).on("click", function (event) {

@@ -8,101 +8,147 @@
         font-size:62.5%;
         
     }
-
+    
     body{
         font-size:1.6rem;
     }
-
-.wrapper{
-    max-width:1080px;
-    margin:0 auto;
-}
-
-
-
-
-.jumbotron{
-    background-image: url("../images/train.jpg");
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-size:cover;
-    height:300px;
-}
-
-.opaque{
-    height: 22rem;
-    padding-top: 2em;
-    opacity: 0.5;
-    background: black;
-    border-top: 3px solid #ccc;
-    border-bottom: 3px solid #ccc;
-    z-index:1;
-    position: relative;
-    bottom: 220px;
-   
-}
-
-.insideJumbo{
-    height:22rem;
-    z-index:99999;
-    border:2px solid white;
-    color:white;
-    position:relative;
     
-}
-
-
-
-.signIn{
-    text-align: center;
-    margin-left:377px;
-    color:black;
-    background-color:orangered;
-    border:orangered;
-
-}
-
-.signIn:focus{
-    outline:0;
-}
-
-.signOut{
-    margin-left:461px;
-    background-color:orangered;
-    border:orangered;
-    color:black;
-}
-h1, #current-time{
-    font-family: 'Ultra', serif;
-}
-
- h4{
-    text-align:center;
-    font-family: 'Ultra', serif;
-}
-
-.content{
-    display:none;
-}
-
-/* .delete{
-    margin-left:15px;
-} */
-
-th, td{
-    text-align:center;
-}
-
-.panel-primary .panel-heading{
-    background-color:orangered;
+    .wrapper{
+        margin:0 auto;
+        max-width:1080px;
+        overflow:hidden;
+    }
     
-}
+    
+    
+    
+    .jumbotron{
+        background-image: url("../images/train.jpg");
+        background-repeat: no-repeat;
+        background-position: bottom;
+        background-size:cover;
+        height:300px;
+    }
+    
+    .opaque{
+        height: 22rem;
+        padding-top: 2em;
+        opacity: 0.5;
+        background: black;
+        border-top: 3px solid #ccc;
+        border-bottom: 3px solid #ccc;
+        z-index:1;
+        position: relative;
+        bottom: 220px;
+        
+    }
+    
+    .insideJumbo{
+        height:22rem;
+        z-index:99999;
+        border:2px solid white;
+        color:white;
+        position:relative;
+        
+    }
+    
+    
+    
+    .signIn{
+        position: absolute;
+        left:280px;
+        text-align: center;
+        color:black;
+        background-color:orangered;
+        border:orangered;
+        
+    }
+    
+    
+    
+    .signIn:focus{
+        outline:0;
+    }
+    
+    .signOut{
+        /* margin-left:461px; */
+        background-color:orangered;
+        border:orangered;
+        color:black;
+    }
+    h1, #current-time{
+        font-family: 'Ultra', serif;
+    }
+    
+    h4{
+        text-align:center;
+        font-family: 'Ultra', serif;
+    }
+    
+    .content{
+        display:none;
+    }
+    
+    /* .delete{
+        margin-left:15px;
+    } */
+    
+    th, td{
+        text-align:center;
+    }
+    
+    .panel-primary .panel-heading{
+        background-color:orangered;
+        
+    }
+    
+    .panel-body{
+        border:orangered;
+    }
+    
+    #submit{
+        background-color:orangered;
+        border:orangered;
+    }
+    
+    /* Media queries */
+    
+    @media (max-width:770px){
+        .signIn{
+        left:165px !important;
+        }
+        .signOut{
+        left:245px !important;
+        }
+    }
 
-.panel-body{
-    border:orangered;
-}
+    @media (max-width:480px){
+        .signIn{
+            left:40px !important;
+        }
+        .signOut{
+            left:120px !important;
+        }
+    }
 
-#submit{
-    background-color:orangered;
-    border:orangered;
-}
+
+    @media (max-width:380px){
+        .signIn{
+            left:23px !important;
+        }
+        .signOut{
+            left:100px !important;
+        }
+
+    }
+
+    @media (max-width:320px){
+        .signIn{
+            font-size:1.5rem !important;
+        }
+        .signOut{
+            font-size:1.5rem !important;
+            left:80px !important;
+        }
+
+    }

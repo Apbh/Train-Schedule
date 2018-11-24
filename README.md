@@ -1,10 +1,10 @@
 # Train-Schedule
 
-In this application, users can input train information to a new row. New inputs will be visible and added to the already existing table. Users will get information like current time, next train arrival and minutes to train arrival. 
+In this application, users can input train information to a new row and delete an existing row. New inputs will be visible and added to the already existing table. Users will get information like current time, next train arrival time and minutes left to the next train.
 
 Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 Local Installation
 
